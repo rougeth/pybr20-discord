@@ -5,7 +5,7 @@ import discord
 
 class InviteTracker:
     invite_roles = {
-        "5JcxDB": "769727469179109406",  # @palestrante
+        "wMtqbUC": "768425216124649472",  # @palestrante
     }
 
     def __init__(self, client):
