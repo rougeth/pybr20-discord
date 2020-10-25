@@ -12,6 +12,7 @@ pytest = "*"
 [packages]
 "discord.py" = "*"
 python-decouple = "*"
+loguru = "*"
 
 [requires]
 python_version = "3.9"
