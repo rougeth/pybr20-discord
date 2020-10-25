@@ -33,20 +33,20 @@ class InviteTracker:
             old_uses = self.old_invites.get(code, 0)
             if uses > old_uses:
                 diff[code] = uses - old_uses
-                logger.info("Invite code used. code=%r, uses=%r", code, uses)
+                logger.info(f"Invite code used. code={code}, uses={uses}")
 
         return diff
 
     async def check_member_role(self, member):
-        logger.info("Checking member role. member=%r", member.display_name)
-        await invite_tracker.sync()
-        invite_diff = invite_tracker.diff()
+        logger.info(f"Checking member role. member={member.display_name}")
+        await self.sync()
+        invite_diff = self.diff()
 
         for code, uses in invite_diff.items():
-            logger.info("Invite code used. code=%r", code)
-            new_role = discord.Object(INVITES_ROLES.get(code))
+            logger.info(f"Invite code used. code={code}")
+            new_role = discord.Object(self.invite_roles.get(code))
             if new_role and uses == 1:
-                logger.info("Updating member role. member=%r, role=%r", member.display_name, new_role)
+                logger.info(f"Updating member role. member={member.display_name}, role={new_role}")
                 await member.add_roles(new_role)
             elif uses > 1:
                 logger.warning("Two or more users joined server between invite tracker updates.")

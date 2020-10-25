@@ -13,7 +13,7 @@ invite_tracker = utils.InviteTracker(bot)
 
 
 async def welcome_message(member):
-    logger.info("Sending welcome message. member=%s", member.display_name)
+    logger.info(f"Sending welcome message. member={member.display_name}")
     role = utils.get_role(member.guild, "codigo-de-conduta")
     await member.create_dm()
     await member.dm_channel.send(messages.WELCOME.format(
@@ -36,7 +36,7 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    logger.info("New member joined. member=%r", member.display_name)
+    logger.info(f"New member joined. member={member.display_name}")
     await invite_tracker.check_member_role(member)
     await welcome_message(member)
 
