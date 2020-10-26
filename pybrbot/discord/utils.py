@@ -6,11 +6,12 @@ from loguru import logger
 import discord
 
 SPEAKER_ROLE = 768425216124649472
-
+ORG_ROLE = 767873391650537533
 
 class InviteTracker:
     invite_roles = {
         "wMtqbUC": SPEAKER_ROLE,  # @palestrante
+        "x6q9ryY": ORG_ROLE,  # @organização
     }
 
     def __init__(self, client):
