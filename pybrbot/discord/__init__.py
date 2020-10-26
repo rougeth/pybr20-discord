@@ -43,11 +43,13 @@ async def on_member_join(member):
 
 @bot.command()
 async def welcome(ctx, *args):
+    logger.info(f"/welcome command trigger by member. member={ctx.member.author}")
     await welcome_message(ctx.message.author)
 
 
 @bot.command()
 async def cdc(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.member.author}")
     role = utils.get_role(ctx.guild, "codigo-de-conduta")
     message = f"{role.mention} - https://python.org.br/cdc"
     await ctx.channel.send(messages.CDC.format(
