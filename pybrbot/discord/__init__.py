@@ -18,6 +18,26 @@ async def send_dm_member(member, message):
     await member.create_dm()
     await member.dm_channel.send(message)
 
+async def welcome_speaker(member, guild):
+    channels = {
+        "channel_speakers": "palestrantes",
+        "channel_announcements": "anuncios",
+        "channel_pep0": "trilha-pep0",
+        "channel_pep8": "trilha-pep8",
+        "channel_pep20": "trilha-pep20",
+        "channel_pep404": "trilha-pep404",
+    }
+    channe_mentions = {
+        key: discord.utils.get(guild.channels, name=name).mention
+        for key, name in channels.items()
+    }
+
+    message = messages.WELCOME_SPEAKER.format(
+        name=member.name,
+        **channe_mentions,
+    )
+    await send_dm_member(member, message)
+
 @bot.event
 async def on_ready():
     await invite_tracker.sync()
@@ -40,8 +60,10 @@ async def on_member_join(member):
         name=member.name,
         cdc_team=role,
     )
-    await invite_tracker.check_member_role(member)
-    await send_dm_member(member, message)
+    new_role = await invite_tracker.check_member_role(member)
+    logger.info(f"Role updated. member={member.display_name!r}, new_role={new_role.id!r}, speaker_role={utils.SPEAKER_ROLE!r}")
+    if new_role and new_role.id == utils.SPEAKER_ROLE:
+        await welcome_speaker(member, member.guild)
 
 
 @bot.command()
@@ -56,27 +78,7 @@ async def welcome(ctx):
     )
     await send_dm_member(member, message)
 
-    channels = ctx.guild.channels
-    channel_speakers = discord.utils.get(channels, name="palestrantes").mention
-    channel_announcements = discord.utils.get(channels, name="anuncios").mention
-    channel_pep0 = discord.utils.get(channels, name="trilha-pep0").mention
-    channel_pep8 = discord.utils.get(channels, name="trilha-pep8").mention
-    channel_pep20 = discord.utils.get(channels, name="trilha-pep20").mention
-    channel_pep404 = discord.utils.get(channels, name="trilha-pep404").mention
-
-    message = messages.WELCOME_SPEAKER.format(
-        name=member.name,
-        channel_speakers=channel_speakers,
-        channel_announcements=channel_announcements,
-        channel_pep0=channel_pep0,
-        channel_pep8=channel_pep8,
-        channel_pep20=channel_pep20,
-        channel_pep404=channel_pep404,
-    )
-    await send_dm_member(member, message)
-        
-
-
+    await welcome_speaker(member, ctx.guild)
 
 
 @bot.command()

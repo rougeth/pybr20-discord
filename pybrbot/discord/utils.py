@@ -5,10 +5,12 @@ from loguru import logger
 
 import discord
 
+SPEAKER_ROLE = 768425216124649472
+
 
 class InviteTracker:
     invite_roles = {
-        "wMtqbUC": "768425216124649472",  # @palestrante
+        "wMtqbUC": SPEAKER_ROLE,  # @palestrante
     }
 
     def __init__(self, client):
@@ -48,9 +50,11 @@ class InviteTracker:
             if new_role and uses == 1:
                 logger.info(f"Updating member role. member={member.display_name}, role={new_role}")
                 await member.add_roles(new_role)
+                return new_role
             elif uses > 1:
                 logger.warning("Two or more users joined server between invite tracker updates.")
 
+        return None
 
 
 def get_role(guild, role_name):
