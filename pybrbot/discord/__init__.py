@@ -80,7 +80,7 @@ async def on_member_join(member):
     logger.info(f"New member joined. member={member.display_name}")
 
     new_role = await invite_tracker.check_member_role(member)
-    logger.info(f"Role updated. member={member.display_name!r}, new_role={new_role.id!r}, speaker_role={utils.SPEAKER_ROLE!r}")
+    logger.info(f"Role updated. member={member.display_name!r}, new_role={getattr(new_role, "id")!r}, speaker_role={utils.SPEAKER_ROLE!r}")
 
     if new_role and new_role.id == utils.SPEAKER_ROLE:
         await welcome_speaker(member, member.guild)

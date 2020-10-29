@@ -64,7 +64,12 @@ class InviteTracker:
 
         for code, uses in invite_diff.items():
             logger.info(f"Invite code used. code={code}")
-            new_role = discord.Object(self.invite_roles.get(code))
+            try:
+                new_role = discord.Object(self.invite_roles.get(code))
+            except TypeError:
+                logger.error(f"code not in invite_roles. code={code!r}, invite_roles={self.invite_roles!r}")
+                return None
+
             if new_role and uses == 1:
                 logger.info(f"Updating member role. member={member.display_name}, role={new_role}")
                 await member.add_roles(new_role)
