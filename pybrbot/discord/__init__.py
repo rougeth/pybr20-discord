@@ -12,21 +12,45 @@ from . import config, messages, utils
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 invite_tracker = utils.InviteTracker(bot)
 
+TALK_CHANNELS = {
+    "channel_pep0": "trilha-pep0",
+    "channel_pep8": "trilha-pep8",
+    "channel_pep20": "trilha-pep20",
+    "channel_pep404": "trilha-pep404",
+}
+
+
 
 async def send_dm_member(member, message):
     logger.info(f"Sending welcome message. member={member.display_name}")
     await member.create_dm()
     await member.dm_channel.send(message)
 
+
+async def welcome_member(member, guild):
+    channels = {
+        "channel_help": "ajuda",
+        "channel_announcements": "anuncios",
+    }
+    channels.update(TALK_CHANNELS)
+    channe_mentions = {
+        key: discord.utils.get(guild.channels, name=name).mention
+        for key, name in channels.items()
+    }
+
+    message = messages.WELCOME.format(
+        name=member.name,
+        **channe_mentions,
+    )
+    await send_dm_member(member, message)
+
+
 async def welcome_speaker(member, guild):
     channels = {
         "channel_speakers": "palestrantes",
         "channel_announcements": "anuncios",
-        "channel_pep0": "trilha-pep0",
-        "channel_pep8": "trilha-pep8",
-        "channel_pep20": "trilha-pep20",
-        "channel_pep404": "trilha-pep404",
     }
+    channels.update(TALK_CHANNELS)
     channe_mentions = {
         key: discord.utils.get(guild.channels, name=name).mention
         for key, name in channels.items()
@@ -64,20 +88,15 @@ async def on_member_join(member):
     logger.info(f"Role updated. member={member.display_name!r}, new_role={new_role.id!r}, speaker_role={utils.SPEAKER_ROLE!r}")
     if new_role and new_role.id == utils.SPEAKER_ROLE:
         await welcome_speaker(member, member.guild)
+    else:
+        await welcome_member(member, member.guild)
 
 
 @bot.command()
 async def welcome(ctx):
     member = ctx.message.author
     logger.info(f"!welcome command trigger by member. member={member}, type={type}")
-
-    cdc_team = utils.get_role(ctx.guild, "codigo-de-conduta")
-    message = messages.WELCOME.format(
-        name=member.name,
-        cdc_team=cdc_team,
-    )
-    await send_dm_member(member, message)
-
+    await welcome_member(member, ctx.guild)
     await welcome_speaker(member, ctx.guild)
 
 
