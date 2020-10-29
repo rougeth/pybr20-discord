@@ -92,40 +92,6 @@ async def on_member_join(member):
 
 
 @bot.command()
-async def welcome(ctx):
-    member = ctx.message.author
-    logger.info(f"!welcome command trigger by member. member={member}, type={type}")
-    await welcome_member(member, ctx.guild)
-    await welcome_speaker(member, ctx.guild)
-
-
-@bot.command()
-async def channel(ctx, *args):
-    logger.info(f"!channel command trigger by member. member={ctx.message.author}")
-
-    message = f"Guild: {ctx.message.guild}\n"
-    message += "Channels:\n"
-    for channel in ctx.message.guild.channels:
-        message += f"- {channel.name} {channel.mention}\n"
-
-    await ctx.message.author.create_dm()
-    await ctx.message.author.dm_channel.send(message)
-
-
-@bot.command()
-async def invites(ctx, *args):
-    logger.info(f"!invites command trigger by member. member={ctx.message.author!r}")
-
-    roles = ctx.message.guild.roles
-    message = "Códigos de convite:\n"
-    for code, role_id in invite_tracker.invite_roles.items():
-        role_mention = discord.utils.get(ctx.message.guild.roles, id=role_id).mention
-        message += f"{role_mention} <https://discord.gg/{code}>\n"
-
-    await ctx.channel.send(message)
-
-
-@bot.command()
 async def cdc(ctx, *args):
     logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
     role = utils.get_role(ctx.guild, "codigo-de-conduta")
