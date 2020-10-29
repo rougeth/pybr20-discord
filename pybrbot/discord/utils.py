@@ -1,4 +1,5 @@
 import logging
+import asyncio
 
 from . import config
 from loguru import logger
@@ -6,40 +7,31 @@ from loguru import logger
 import discord
 
 SPEAKER_ROLE = 768425216124649472
-ORG_ROLE = 767873391650537533
-TUTORIAL_ROLE = 771000495409594388
+
 
 class InviteTracker:
-    invite_roles = {
-        "wMtqbUC": SPEAKER_ROLE,  # @palestrante
-        "x6q9ryY": ORG_ROLE,  # @organização
-        's3s9kD7': TUTORIAL_ROLE,
-        'YyHK6PX': TUTORIAL_ROLE,
-        '48VfBAD': TUTORIAL_ROLE,
-        'tztKmzp': TUTORIAL_ROLE,
-        'xPWBPzP': TUTORIAL_ROLE,
-        'JGjNmgW': TUTORIAL_ROLE,
-        'jaJTTVr': TUTORIAL_ROLE,
-        '73k35eh': TUTORIAL_ROLE,
-        'gybvTj2': TUTORIAL_ROLE,
-        '3fjCpNp': TUTORIAL_ROLE,
-        'gUpxWGC': TUTORIAL_ROLE,
-        'fmvChdY': TUTORIAL_ROLE,
-        'TnAKpNN': TUTORIAL_ROLE,
-        'WTStKnz': TUTORIAL_ROLE,
-        'TCufqKy': TUTORIAL_ROLE,
-        'ryN5RDY': TUTORIAL_ROLE,
-        'uMk25pQ': TUTORIAL_ROLE,
-        'YeJ46VC': TUTORIAL_ROLE,
-        'FNk4ybp': TUTORIAL_ROLE,
-        'ktpK54x': TUTORIAL_ROLE,
-        'dczjb5H': TUTORIAL_ROLE,
-    }
-
     def __init__(self, client):
         self.client = client
         self.old_invites = {}
         self.invites = {}
+        self.invite_roles = {}
+
+    async def fetch_roles(self):
+        # Available roles
+        guild = await self.client.fetch_guild(config.GUILD)
+        roles = {role.name: role.id for role in guild.roles}
+
+        for invite in config.invite_to_roles:
+            invite["role_id"] = roles[invite["role"]]
+
+        invite_roles = {}
+        for invite_map in config.invite_to_roles:
+            invite_roles.update({
+                code: invite_map["role_id"]
+                for code in invite_map["invite_codes"]
+            })
+
+        return invite_roles
 
     async def get_invites(self):
         guild = await self.client.fetch_guild(config.GUILD)
@@ -48,6 +40,9 @@ class InviteTracker:
 
     async def sync(self):
         logger.info("Syncing invite codes usage")
+        if not self.invite_roles:
+            logger.info("Fetching roles")
+            self.invite_roles = await self.fetch_roles()
         invites = await self.get_invites()
         self.old_invites = self.invites
         self.invites = invites

@@ -65,20 +65,20 @@ async def welcome_speaker(member, guild):
 @bot.event
 async def on_ready():
     await invite_tracker.sync()
-    
+
     logger.info(f'{bot.user} has connected to Discord!\n')
     for guild in bot.guilds:
         print(guild.name, guild.id)
         for role in guild.roles:
             print(f"  {role.name}: {role.id}")
-        
+
         print()
 
 
 @bot.event
 async def on_member_join(member):
     logger.info(f"New member joined. member={member.display_name}")
-    
+
     new_role = await invite_tracker.check_member_role(member)
     logger.info(f"Role updated. member={member.display_name!r}, new_role={new_role.id!r}, speaker_role={utils.SPEAKER_ROLE!r}")
 
