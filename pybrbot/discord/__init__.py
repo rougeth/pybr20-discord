@@ -79,13 +79,9 @@ async def on_ready():
 async def on_member_join(member):
     logger.info(f"New member joined. member={member.display_name}")
     
-    role = utils.get_role(member.guild, "codigo-de-conduta")
-    message = messages.WELCOME.format(
-        name=member.name,
-        cdc_team=role,
-    )
     new_role = await invite_tracker.check_member_role(member)
     logger.info(f"Role updated. member={member.display_name!r}, new_role={new_role.id!r}, speaker_role={utils.SPEAKER_ROLE!r}")
+
     if new_role and new_role.id == utils.SPEAKER_ROLE:
         await welcome_speaker(member, member.guild)
     else:
@@ -129,7 +125,7 @@ async def invite(ctx, *args):
 async def cdc(ctx, *args):
     logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
     role = utils.get_role(ctx.guild, "codigo-de-conduta")
-    message = f"{role.mention} - https://python.org.br/cdc"
-    await ctx.channel.send(messages.CDC.format(
-        cdc_team=role.mention
-    ))
+    await ctx.channel.send(role.mention)
+
+    cdc_channel = discord.utils.get(ctx.guild.channels, name="cdc")
+    await cdc_channel.send(f"🚨 Atenção! Link: {ctx.message.jump_url}")

@@ -41,8 +41,3 @@ Aqui vão algumas informações relevantes:
 - O Código de Conduta pode ser lido em: https://python.org.br/cdc
 - Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
 """
-
-CDC = """
-Código de Conduta: https://python.org.br/cdc
-Time de resposta do CdC: {cdc_team}
-"""
