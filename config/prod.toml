@@ -8,6 +8,10 @@ role = "organizacao"
 invite_codes = ["x6q9ryY"]
 
 [[invite_to_roles]]
+role = "codigo-de-conduta"
+invite_codes = ["cQ9Kw8xpaR"]
+
+[[invite_to_roles]]
 role = "@everyone"
 invite_codes = ["fAHZyGs"]
 
