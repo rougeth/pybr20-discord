@@ -1,0 +1,37 @@
+
+[[invite_to_roles]]
+role = "palestrante"
+invite_codes = ["wMtqbUC"]
+
+[[invite_to_roles]]
+role = "organizacao"
+invite_codes = ["x6q9ryY"]
+
+[[invite_to_roles]]
+role = "@everyone"
+invite_codes = ["fAHZyGs"]
+
+[[invite_to_roles]]
+role = "tutoriais"
+invite_codes = [
+    "YyHK6PX",
+    "48VfBAD",
+    "tztKmzp",
+    "xPWBPzP",
+    "JGjNmgW",
+    "jaJTTVr",
+    "73k35eh",
+    "gybvTj2",
+    "3fjCpNp",
+    "gUpxWGC",
+    "fmvChdY",
+    "TnAKpNN",
+    "WTStKnz",
+    "TCufqKy",
+    "ryN5RDY",
+    "uMk25pQ",
+    "YeJ46VC",
+    "FNk4ybp",
+    "ktpK54x",
+    "dczjb5H",
+]
