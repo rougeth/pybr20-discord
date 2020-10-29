@@ -103,15 +103,15 @@ async def channel(ctx, *args):
     message = f"Guild: {ctx.message.guild}\n"
     message += "Channels:\n"
     for channel in ctx.message.guild.channels:
-        message += f"- {channel.name} {channel.mention}"
+        message += f"- {channel.name} {channel.mention}\n"
 
     await ctx.message.author.create_dm()
     await ctx.message.author.dm_channel.send(message)
 
 
 @bot.command()
-async def invite(ctx, *args):
-    logger.info(f"!invite command trigger by member. member={ctx.message.author}")
+async def invites(ctx, *args):
+    logger.info(f"!invites command trigger by member. member={ctx.message.author!r}")
 
     roles = ctx.message.guild.roles
     message = "Códigos de convite:\n"
