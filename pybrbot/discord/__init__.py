@@ -20,7 +20,6 @@ TALK_CHANNELS = {
 }
 
 
-
 async def send_dm_member(member, message):
     logger.info(f"Sending welcome message. member={member.display_name}")
     await member.create_dm()
@@ -62,11 +61,12 @@ async def welcome_speaker(member, guild):
     )
     await send_dm_member(member, message)
 
+
 @bot.event
 async def on_ready():
     await invite_tracker.sync()
 
-    logger.info(f'{bot.user} has connected to Discord!\n')
+    logger.info(f"{bot.user} has connected to Discord!\n")
     for guild in bot.guilds:
         print(guild.name, guild.id)
         for role in guild.roles:
@@ -80,7 +80,10 @@ async def on_member_join(member):
     logger.info(f"New member joined. member={member.display_name}")
 
     new_role = await invite_tracker.check_member_role(member)
-    logger.info(f"Role updated. member={member.display_name!r}, new_role={getattr(new_role, "id")!r}, speaker_role={utils.SPEAKER_ROLE!r}")
+    new_role_id = getattr(new_role, "id")
+    logger.info(
+        f"Role updated. member={member.display_name!r}, new_role={new_role_id!r}, speaker_role={utils.SPEAKER_ROLE!r}"
+    )
 
     if new_role and new_role.id == utils.SPEAKER_ROLE:
         await welcome_speaker(member, member.guild)
@@ -120,6 +123,7 @@ async def invites(ctx, *args):
         message += f"{role_mention} <https://discord.gg/{code}>\n"
 
     await ctx.channel.send(message)
+
 
 @bot.command()
 async def cdc(ctx, *args):

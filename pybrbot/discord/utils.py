@@ -26,10 +26,9 @@ class InviteTracker:
 
         invite_roles = {}
         for invite_map in config.invite_to_roles:
-            invite_roles.update({
-                code: invite_map["role_id"]
-                for code in invite_map["invite_codes"]
-            })
+            invite_roles.update(
+                {code: invite_map["role_id"] for code in invite_map["invite_codes"]}
+            )
 
         return invite_roles
 
@@ -67,15 +66,21 @@ class InviteTracker:
             try:
                 new_role = discord.Object(self.invite_roles.get(code))
             except TypeError:
-                logger.error(f"code not in invite_roles. code={code!r}, invite_roles={self.invite_roles!r}")
+                logger.error(
+                    f"code not in invite_roles. code={code!r}, invite_roles={self.invite_roles!r}"
+                )
                 return None
 
             if new_role and uses == 1:
-                logger.info(f"Updating member role. member={member.display_name}, role={new_role}")
+                logger.info(
+                    f"Updating member role. member={member.display_name}, role={new_role}"
+                )
                 await member.add_roles(new_role)
                 return new_role
             elif uses > 1:
-                logger.warning("Two or more users joined server between invite tracker updates.")
+                logger.warning(
+                    "Two or more users joined server between invite tracker updates."
+                )
 
         return None
 
