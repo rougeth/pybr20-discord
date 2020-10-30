@@ -40,7 +40,8 @@ class InviteTracker:
             ]
         )
         code_role_ids = {}
-        for code, role_name in invite_codes:
+
+        for code, role_name in invite_codes.items():
             code_role_ids[code] = roles[role_name]
 
         return code_role_ids
