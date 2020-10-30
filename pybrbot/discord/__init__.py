@@ -9,7 +9,7 @@ from discord.ext import commands
 from . import config, messages, utils
 
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 invite_tracker = utils.InviteTracker(bot)
 
 TALK_CHANNELS = {
@@ -94,7 +94,7 @@ async def on_member_join(member):
 @bot.command()
 async def cdc(ctx, *args):
     logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
-    role = utils.get_role(ctx.guild, "teste-bellon")
+    role = utils.get_role(ctx.guild, "codigo-de-conduta")
     await ctx.channel.send(role.mention)
 
     cdc_channel = discord.utils.get(ctx.guild.channels, name="cdc")
