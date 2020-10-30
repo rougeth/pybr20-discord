@@ -9,28 +9,41 @@ import discord
 SPEAKER_ROLE = 768425216124649472
 
 
+def generate_role_index(roles):
+    index = {}
+    for role, invite_codes in roles:
+        index.update({code: role for code in invite_codes})
+
+    return index
+
+
 class InviteTracker:
     def __init__(self, client):
         self.client = client
         self.old_invites = {}
         self.invites = {}
-        self.invite_roles = {}
+        self.invite_codes = {}
 
     async def fetch_roles(self):
         # Available roles
         guild = await self.client.fetch_guild(config.GUILD)
         roles = {role.name: role.id for role in guild.roles}
 
-        for invite in config.invite_to_roles:
-            invite["role_id"] = roles[invite["role"]]
+        # Fetch role ID from role name
+        invite_codes = generate_role_index(
+            [
+                config.ROLE_ORG,
+                config.ROLE_CDC,
+                config.ROLE_SPEAKER,
+                config.ROLE_TUTORIAL,
+                config.ROLE_EVERYONE,
+            ]
+        )
+        code_role_ids = {}
+        for code, role_name in invite_codes:
+            code_role_ids[code] = roles[role_name]
 
-        invite_roles = {}
-        for invite_map in config.invite_to_roles:
-            invite_roles.update(
-                {code: invite_map["role_id"] for code in invite_map["invite_codes"]}
-            )
-
-        return invite_roles
+        return code_role_ids
 
     async def get_invites(self):
         guild = await self.client.fetch_guild(config.GUILD)
@@ -39,9 +52,7 @@ class InviteTracker:
 
     async def sync(self):
         logger.info("Syncing invite codes usage")
-        if not self.invite_roles:
-            logger.info("Fetching roles")
-            self.invite_roles = await self.fetch_roles()
+
         invites = await self.get_invites()
         self.old_invites = self.invites
         self.invites = invites
@@ -58,16 +69,21 @@ class InviteTracker:
 
     async def check_member_role(self, member):
         logger.info(f"Checking member role. member={member.display_name}")
+
+        if not self.invite_codes:
+            logger.info("Fetching roles")
+            self.invite_codes = await self.fetch_roles()
+
         await self.sync()
         invite_diff = self.diff()
 
         for code, uses in invite_diff.items():
             logger.info(f"Invite code used. code={code}")
             try:
-                new_role = discord.Object(self.invite_roles.get(code))
+                new_role = discord.Object(self.invite_codes.get(code))
             except TypeError:
                 logger.error(
-                    f"code not in invite_roles. code={code!r}, invite_roles={self.invite_roles!r}"
+                    f"code not in invite_codes. code={code!r}, invite_codes={self.invite_codes!r}"
                 )
                 return None
 
