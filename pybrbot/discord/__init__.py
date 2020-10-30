@@ -9,7 +9,7 @@ from discord.ext import commands
 from . import config, messages, utils
 
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+bot = commands.Bot(command_prefix="!")
 invite_tracker = utils.InviteTracker(bot)
 
 TALK_CHANNELS = {
@@ -94,8 +94,50 @@ async def on_member_join(member):
 @bot.command()
 async def cdc(ctx, *args):
     logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
-    role = utils.get_role(ctx.guild, "codigo-de-conduta")
+    role = utils.get_role(ctx.guild, "teste-bellon")
     await ctx.channel.send(role.mention)
 
     cdc_channel = discord.utils.get(ctx.guild.channels, name="cdc")
     await cdc_channel.send(f"🚨 Atenção! Link: {ctx.message.jump_url}")
+
+@bot.command()
+async def geral(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
+
+    geral_channel = discord.utils.get(ctx.guild.channels, name="geral")
+    await geral_channel.send(messages.GERAL)
+    
+@bot.command()
+async def anuncio(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
+
+    anuncios_channel = discord.utils.get(ctx.guild.channels, name="anuncios")
+    await anuncios_channel.send(messages.WARNING.format(warning_text=' '.join(args)))
+
+@bot.command()
+async def pep0_prox(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
+
+    pep0_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep0")
+    await pep0_channel.send(messages.TALK.format(youtube_link= args[0] if args else ''))
+
+@bot.command()
+async def pep8_prox(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
+    
+    pep8_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep8")
+    await pep8_channel.send(messages.TALK.format(youtube_link= args[0] if args else ''))
+
+@bot.command()
+async def pep20_prox(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
+    
+    pep20_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep20")
+    await pep20_channel.send(messages.TALK.format(youtube_link= args[0] if args else ''))
+
+@bot.command()
+async def pep404_prox(ctx, *args):
+    logger.info(f"/cdc command trigger by member. member={ctx.message.author}")
+
+    pep404_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep404")
+    await pep404_channel.send(messages.TALK.format(youtube_link= args[0] if args else ''))
