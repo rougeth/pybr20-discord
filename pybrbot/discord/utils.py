@@ -104,3 +104,11 @@ class InviteTracker:
 def get_role(guild, role_name):
     roles = {role.name: role for role in guild.roles}
     return roles.get(role_name)
+
+
+def cmdlog(f):
+    async def wrapper(ctx, *args, **kwargs):
+        logger.info(f"/{f.__name__} command trigger by user. user={ctx.message.author}")
+        await f(ctx, *args, **kwargs)
+
+    return wrapper
