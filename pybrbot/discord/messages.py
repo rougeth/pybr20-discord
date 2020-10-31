@@ -24,7 +24,7 @@ Esperamos que você tenha um ótimo evento! 😄
 WELCOME_SPEAKER = """
 Olá **{name}**! 🥳 🎉
 
-Obrigada por participar na **Python Brasil 2020!** 
+Obrigada por participar na **Python Brasil 2020!**
 A sua palestra é muito importante para a nossa comunidade!
 
 Aqui vão algumas informações relevantes:
@@ -45,7 +45,7 @@ Aqui vão algumas informações relevantes:
 
 WARNING = """
 @here
-**⚠️⚠️  Atenção para o aviso** ⚠️⚠️ 
+**⚠️⚠️  Atenção para o aviso** ⚠️⚠️
 
 {warning_text}
 
@@ -54,7 +54,7 @@ WARNING = """
 - O Código de Conduta pode ser lido em: https://python.org.br/cdc
 - Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
 """
- 
+
 TALK = """
 @here
 🚀 🎇 A próxima talk vai começar em breve !! 🎇 🚀
@@ -70,7 +70,6 @@ Não esqueça de acompanhar pelo Youtube.
 """
 
 GERAL = """
-
 Oi, Já que você está aqui segue algumas dicas e regras:  
 - A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
 - Não esqueça de assistir as palestras pelo Youtube.
