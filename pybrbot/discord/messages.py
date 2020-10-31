@@ -41,3 +41,44 @@ Aqui vão algumas informações relevantes:
 - O Código de Conduta pode ser lido em: https://python.org.br/cdc
 - Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
 """
+
+
+WARNING = """
+@here
+**⚠️⚠️  Atenção para o aviso** ⚠️⚠️ 
+
+{warning_text}
+
+**Para Lembrar**:
+- A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
+- O Código de Conduta pode ser lido em: https://python.org.br/cdc
+- Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
+"""
+ 
+TALK = """
+@here
+🚀 🎇 A próxima talk vai começar em breve !! 🎇 🚀
+
+Não esqueça de acompanhar pelo Youtube.
+
+{youtube_link}
+
+**Para Lembrar**:
+- A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
+- O Código de Conduta pode ser lido em: https://python.org.br/cdc
+- Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
+"""
+
+GERAL = """
+
+Oi, já que você está aqui segue algunas dicas e regras:  
+- A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
+- Não esqueça de assistir as palestras pelo Youtube.
+- Lembre-se se ver se apelido aqui o Discord está ok, e se quiser mudar aqui tem como: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
+- Fique de olho no canal #anuncios para os avisos dos eventos
+- Se precisar de ajuda tem o canal #ajuda
+- O Código de Conduta pode ser lido em: https://python.org.br/cdc
+- Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
+- Use PEP8
+- Beba água
+"""
