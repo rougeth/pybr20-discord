@@ -92,8 +92,8 @@ async def on_member_join(member):
         await welcome_member(member, member.guild)
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def cdc(ctx, *args):
     role = utils.get_role(ctx.guild, "codigo-de-conduta")
     await ctx.channel.send(role.mention)
@@ -102,43 +102,43 @@ async def cdc(ctx, *args):
     await cdc_channel.send(f"🚨 Atenção! Link: {ctx.message.jump_url}")
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def geral(ctx, *args):
     geral_channel = discord.utils.get(ctx.guild.channels, name="geral")
     await geral_channel.send(messages.GERAL)
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def anuncio(ctx, *args):
     anuncios_channel = discord.utils.get(ctx.guild.channels, name="anuncios")
     await anuncios_channel.send(messages.WARNING.format(warning_text=" ".join(args)))
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def pep0_prox(ctx, *args):
     pep0_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep0")
     await pep0_channel.send(messages.TALK.format(youtube_link=args[0] if args else ""))
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def pep8_prox(ctx, *args):
     pep8_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep8")
     await pep8_channel.send(messages.TALK.format(youtube_link=args[0] if args else ""))
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def pep20_prox(ctx, *args):
     pep20_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep20")
     await pep20_channel.send(messages.TALK.format(youtube_link=args[0] if args else ""))
 
 
-@cmdlog
 @bot.command()
+@cmdlog
 async def pep404_prox(ctx, *args):
     pep404_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep404")
     await pep404_channel.send(
