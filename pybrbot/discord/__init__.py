@@ -22,7 +22,7 @@ TALK_CHANNELS = {
 
 
 async def send_dm_member(member, message):
-    logger.info(f"Sending welcome message. member={member.display_name}")
+    logger.info(f"Sending welcome message. member={member.display_name!r}")
     await member.create_dm()
     await member.dm_channel.send(message)
 
@@ -47,7 +47,7 @@ async def welcome_member(member, guild):
 
 async def welcome_speaker(member, guild):
     channels = {
-        "channel_speakers": "palestrantes",
+        "channel_speakers": "ajuda-palestrantes",
         "channel_announcements": "anuncios",
     }
     channels.update(TALK_CHANNELS)
@@ -67,7 +67,7 @@ async def welcome_speaker(member, guild):
 async def on_ready():
     await invite_tracker.sync()
 
-    logger.info(f"{bot.user} has connected to Discord!\n")
+    logger.info(f"{bot.user!r} has connected to Discord!\n")
     for guild in bot.guilds:
         print(guild.name, guild.id)
         for role in guild.roles:
@@ -78,10 +78,10 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    logger.info(f"New member joined. member={member.display_name}")
+    logger.info(f"New member joined. member={member.display_name!r}")
 
     new_role = await invite_tracker.check_member_role(member)
-    new_role_id = getattr(new_role, "id")
+    new_role_id = getattr(new_role, "id", None)
     logger.info(
         f"Role updated. member={member.display_name!r}, new_role={new_role_id!r}, speaker_role={utils.SPEAKER_ROLE!r}"
     )

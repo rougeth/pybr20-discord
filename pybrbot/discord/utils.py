@@ -84,7 +84,7 @@ class InviteTracker:
                 new_role = discord.Object(self.invite_codes.get(code))
             except TypeError:
                 logger.error(
-                    f"code not in invite_codes. code={code!r}, invite_codes={self.invite_codes!r}"
+                    f"code not in invite_codes, ignoring. code={code!r}, invite_codes={self.invite_codes!r}"
                 )
                 return None
 
