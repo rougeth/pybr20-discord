@@ -73,7 +73,7 @@ GERAL = """
 Olá! já que você está aqui, segue algunas dicas e regras:
 - A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
 - Não esqueça de assistir as palestras pelo YouTube.
-- Você pode mudar o apilido aqui no Discord. Saiba como: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
+- Você pode mudar o apelido aqui no Discord. Saiba como: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
 - Fique de olho no canal #anuncios para os avisos dos eventos
 - Se precisar de ajuda tem o canal #ajuda
 - O Código de Conduta pode ser lido em: https://python.org.br/cdc
