@@ -70,7 +70,7 @@ Não esqueça de acompanhar pelo Youtube.
 """
 
 GERAL = """
-Oi, Já que você está aqui segue algumas dicas e regras:  
+Oi, Já que você está aqui segue algumas dicas e regras:
 - A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
 - Não esqueça de assistir as palestras pelo Youtube.
 - Caso queria trocar seu nickname aqui ensina como modificar: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
@@ -85,7 +85,7 @@ Oi, Já que você está aqui segue algumas dicas e regras:
 BOTECO_WELCOME = """
 Olá! Aqui quem fala é o garçom do boteco da Python Brasil 2020! :beers:
 
-Você quer uma mesa para trocar uma ideia com os outros participantes? Basta me chamar usando o comando `!mesa`, por exemplo:
+Você quer uma mesa para trocar uma ideia com os outros participantes? Basta me chamar usando o comando `!mesa` a partir de qualquer canal, por exemplo:
 `!mesa vim vs emacs`
 ou
 `!mesa among us`
