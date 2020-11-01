@@ -175,9 +175,11 @@ async def pep404_prox(ctx, *args):
 
 @bot.command()
 @cmdlog
-async def boteco_welcome(ctx, *args):
-    boteco = discord.utils.get(ctx.guild.channels, name="peca-uma-mesa")
-    await boteco.send(messages.BOTECO_WELCOME)
+async def welcome_boteco(ctx, *args):
+    channel_name = "peca-uma-mesa" if len(args) == 0 else args[0]
+    boteco = discord.utils.get(ctx.guild.channels, name=channel_name)
+    channel_help = discord.utils.get(ctx.guild.channels, name="ajuda").mention
+    await boteco.send(messages.BOTECO_WELCOME.format(channel_help=channel_help))
 
 
 @bot.command()

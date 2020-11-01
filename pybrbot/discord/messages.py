@@ -83,14 +83,14 @@ Oi, Já que você está aqui segue algumas dicas e regras:
 """
 
 BOTECO_WELCOME = """
-Olá! Aqui quem fala é o garçom do boteco da Python Brasil 2020! :beers:
+Olá! Aqui quem fala é o garçom do boteco da **Python Brasil 2020**! :tropical_drink:
 
-Você quer uma mesa para trocar uma ideia com os outros participantes? Basta me chamar usando o comando `!mesa` a partir de qualquer canal, por exemplo:
+Você quer uma mesa (:loud_sound: canal de voz) para trocar uma ideia com os outros participantes? Basta me chamar usando o comando `!mesa` a partir de qualquer canal, por exemplo:
 `!mesa vim vs emacs`
 ou
 `!mesa among us`
 
-A mesa não ficará disponível para sempre, após 10 minutos vazia, vou liberá-la para outras pessoas usarem. Qualquer dúvida, mande uma mensagem no #ajuda.
+A mesa não ficará disponível para sempre, após 10 minutos vazia, vou liberá-la para outras pessoas usarem. Qualquer dúvida, mande uma mensagem no {channel_help}.
 
 :beers:
 """
