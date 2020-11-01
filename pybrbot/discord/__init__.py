@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 from collections import defaultdict
@@ -6,12 +7,15 @@ from typing import Optional
 import discord
 from loguru import logger
 from discord.ext import commands
+from discord.ext.tasks import loop
+from slugify import slugify
 from . import config, messages, utils
 from .utils import cmdlog
 
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 invite_tracker = utils.InviteTracker(bot)
+voice_channel_tracker = utils.VoiceChannelTracker()
 
 TALK_CHANNELS = {
     "channel_pep0": "trilha-pep0",
@@ -92,6 +96,22 @@ async def on_member_join(member):
         await welcome_member(member, member.guild)
 
 
+@bot.event
+async def on_voice_state_update(member, before, after):
+    channel = before.channel or after.channel
+
+    if channel.category.name != "boteco":
+        return
+
+    global voice_channels_cache
+    if len(channel.members) == 0:
+        logger.info(f"Channel to be removed. channel={channel.name!r}")
+        voice_channel_tracker.track(channel)
+
+    if len(channel.members) > 0:
+        voice_channel_tracker.stop_tracking(channel)
+
+
 @bot.command()
 @cmdlog
 async def cdc(ctx, *args):
@@ -144,3 +164,48 @@ async def pep404_prox(ctx, *args):
     await pep404_channel.send(
         messages.TALK.format(youtube_link=args[0] if args else "")
     )
+
+
+@bot.command()
+@cmdlog
+async def boteco_welcome(ctx, *args):
+    boteco = discord.utils.get(ctx.guild.channels, name="peca-uma-mesa")
+    await boteco.send(messages.BOTECO_WELCOME)
+
+
+@bot.command()
+@cmdlog
+async def mesa(ctx, *args):
+    boteco = discord.utils.get(ctx.guild.categories, name="boteco")
+    tables = [table.name for table in boteco.voice_channels]
+
+    if not args:
+        logger.warning("missing table name!")
+        await ctx.channel.send(
+            "Opa, faltou dar um nome para a sua mesa, tente algo como `!mesa vim melhor que emacs` hahaha 😅"
+        )
+        return
+
+    new_table = slugify("mesa " + " ".join(args))
+    if new_table in tables:
+        logger.warning(
+            "This table already exists. new_table={new_table!r}, tables={tables!r}"
+        )
+        await ctx.channel.send(
+            "Opa, uma mesa já existe com esse nome, mas sinta-se à vontade e participe da conversa! 😄 🍺"
+        )
+        return
+
+    channel = await boteco.create_voice_channel(new_table, user_limit=10)
+    voice_channel_tracker.track(channel)
+
+
+@loop(minutes=1)
+async def close_empty_tables():
+    logger.info("Running job: close_empty_tables")
+
+    if len(voice_channel_tracker) == 0:
+        logger.info(f"No channels to be removed")
+        return
+
+    await voice_channel_tracker.delete_empty_channels()

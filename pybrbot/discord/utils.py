@@ -1,6 +1,7 @@
 import asyncio
 import functools
 import logging
+from datetime import datetime, timedelta
 
 from . import config
 from loguru import logger
@@ -16,6 +17,38 @@ def generate_role_index(roles):
         index.update({code: role for code in invite_codes})
 
     return index
+
+
+class VoiceChannelTracker:
+    def __init__(self):
+        self.channels = {}
+
+    def __len__(self):
+        return len(self.channels)
+
+    def track(self, channel):
+        self.channels[channel.id] = {
+            "empty_at": datetime.now(),
+            "channel": channel,
+        }
+
+    def stop_tracking(self, channel):
+        if channel.id in self.channels:
+            logger.info(f"Channel won't be removed. channel={channel.name!r}")
+            del self.channels[channel.id]
+
+    async def delete_empty_channels(self):
+        delete_before = datetime.now() - timedelta(minutes=10)
+
+        to_remove_now = [
+            channel["channel"]
+            for channel in self.channels.values()
+            if delete_before > channel["empty_at"]
+        ]
+        for channel in to_remove_now:
+            logger.info(f"Deleting voice channel. channel={channel.name}")
+            await channel.delete()
+            self.stop_tracking(channel)
 
 
 class InviteTracker:
@@ -110,7 +143,9 @@ def get_role(guild, role_name):
 def cmdlog(f):
     @functools.wraps(f)
     async def wrapper(ctx, *args, **kwargs):
-        logger.info(f"/{f.__name__} command trigger by user. user={ctx.message.author!r}")
+        logger.info(
+            f"/{f.__name__} command trigger by user. user={ctx.message.author!r}"
+        )
         await f(ctx, *args, **kwargs)
 
     return wrapper

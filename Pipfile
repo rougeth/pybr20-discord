@@ -14,6 +14,7 @@ pytest = "*"
 python-decouple = "*"
 loguru = "*"
 toml = "*"
+python-slugify = "*"
 
 [requires]
 python_version = "3.9"
