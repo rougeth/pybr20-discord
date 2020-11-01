@@ -211,10 +211,8 @@ async def mesa(ctx, *args):
 
 @loop(minutes=1)
 async def close_empty_tables():
-    logger.info("Running job: close_empty_tables")
-
     if len(voice_channel_tracker) == 0:
-        logger.info(f"No channels to be removed")
         return
 
+    logger.info("Running job: close_empty_tables")
     await voice_channel_tracker.delete_empty_channels()
