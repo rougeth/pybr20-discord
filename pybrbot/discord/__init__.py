@@ -116,10 +116,11 @@ async def on_voice_state_update(member, before, after):
 @cmdlog
 async def cdc(ctx, *args):
     role = utils.get_role(ctx.guild, "codigo-de-conduta")
-    await ctx.channel.send(role.mention)
+    message = await ctx.channel.send(role.mention)
 
     cdc_channel = discord.utils.get(ctx.guild.channels, name="cdc")
-    await cdc_channel.send(f"🚨 Atenção! Link: {ctx.message.jump_url}")
+    await cdc_channel.send(f"🚨 **Atenção!**\nAlerta enviado pela pessoa: {ctx.message.author.mention}\nLink para mensagem: {message.jump_url}")
+    await ctx.message.delete()
 
 
 @bot.command()
