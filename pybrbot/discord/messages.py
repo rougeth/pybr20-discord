@@ -70,10 +70,10 @@ Não esqueça de acompanhar pelo Youtube.
 """
 
 GERAL = """
-Olá! já que você está aqui, segue algunas dicas e regras:
+Oi, Já que você está aqui segue algumas dicas e regras:  
 - A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
-- Não esqueça de assistir as palestras pelo YouTube.
-- Você pode mudar o apelido aqui no Discord. Saiba como: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
+- Não esqueça de assistir as palestras pelo Youtube.
+- Caso queria trocar seu nickname aqui ensina como modificar: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
 - Fique de olho no canal #anuncios para os avisos dos eventos
 - Se precisar de ajuda tem o canal #ajuda
 - O Código de Conduta pode ser lido em: https://python.org.br/cdc
