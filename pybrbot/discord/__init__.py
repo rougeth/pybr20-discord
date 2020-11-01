@@ -198,6 +198,8 @@ async def mesa(ctx, *args):
 
     channel = await boteco.create_voice_channel(new_table, user_limit=10)
     voice_channel_tracker.track(channel)
+    await ctx.message.add_reaction("🍻")
+    await ctx.channel.send(f"Mesa disponível no **#boteco**")
 
 
 @loop(minutes=1)
