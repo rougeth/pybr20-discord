@@ -4,7 +4,7 @@ from loguru import logger
 
 TOKEN = config("DISCORD_TOKEN")
 GUILD = config("DISCORD_GUILD_ID")
-
+SENTRY_URL = config("SENTRY_URL", default=None)
 
 # Expected value: "<role name>:<invite_code>,<invite_code>,..."
 def role_config_cast(value):

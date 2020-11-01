@@ -100,7 +100,7 @@ async def on_member_join(member):
 async def on_voice_state_update(member, before, after):
     channel = before.channel or after.channel
 
-    if channel.category.name != "boteco":
+    if not channel or channel.category.name != "boteco":
         return
 
     global voice_channels_cache
@@ -110,6 +110,12 @@ async def on_voice_state_update(member, before, after):
 
     if len(channel.members) > 0:
         voice_channel_tracker.stop_tracking(channel)
+
+
+@bot.event
+async def on_error(event, *args, **kwargs):
+    """Don't ignore the error, causing Sentry to capture it."""
+    raise
 
 
 @bot.command()

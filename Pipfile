@@ -15,6 +15,7 @@ python-decouple = "*"
 loguru = "*"
 toml = "*"
 python-slugify = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.9"
