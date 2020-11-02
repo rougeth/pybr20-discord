@@ -216,6 +216,38 @@ async def mesa(ctx, *args):
     await ctx.channel.send(f"Mesa disponível no **#boteco**")
 
 
+@bot.command()
+@cmdlog
+async def msg(ctx, *args):
+    if len(args) < 2:
+        logger.warning("missing destination message and message")
+        await ctx.channel.send("!msg #canal mensagem a ser enviada")
+        return
+
+    if args[0].startswith("<#"):
+        channel_id = int(args[0][2:-1])
+        destination = discord.utils.get(ctx.guild.channels, id=channel_id)
+    elif args[0].startswith("<@"):
+        member_id = int(args[0][2:-1])
+        destination = discord.utils.get(ctx.guild.members, id=member_id)
+    else:
+        logger.warning(f"Not a channel or user. args={args}")
+        await ctx.channel.send(
+            f"Uhmm, não encontrei o canal/membro **{args[0]}** para enviar a mensagem"
+        )
+        return
+
+    if not destination:
+        logger.warning(
+            f"Destination not found. destination={destination!r}, args={args!r}"
+        )
+        return
+
+    message = " ".join(args[1:])
+    logger.info(f"message sent. destination={destination}, message={message}")
+    await destination.send(message)
+
+
 @loop(minutes=1)
 async def close_empty_tables():
     if len(voice_channel_tracker) == 0:
