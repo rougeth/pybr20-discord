@@ -99,7 +99,8 @@ async def on_member_join(member):
     )
 
     if new_role and new_role.id == utils.SPEAKER_ROLE:
-        await welcome_speaker(member, member.guild)
+        # await welcome_speaker(member, member.guild)
+        pass
     else:
         # await welcome_member(member, member.guild)
         pass
