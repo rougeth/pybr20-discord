@@ -81,6 +81,14 @@ async def on_ready():
 
 
 @bot.event
+async def on_message(message):
+    if not message.author.bot and message.content.lower() == "galvão?":
+        await message.channel.send("Fala Tino!")
+
+    await bot.process_commands(message)
+
+
+@bot.event
 async def on_member_join(member):
     logger.info(f"New member joined. member={member.display_name!r}")
 
@@ -93,7 +101,8 @@ async def on_member_join(member):
     if new_role and new_role.id == utils.SPEAKER_ROLE:
         await welcome_speaker(member, member.guild)
     else:
-        await welcome_member(member, member.guild)
+        # await welcome_member(member, member.guild)
+        pass
 
 
 @bot.event
@@ -125,7 +134,9 @@ async def cdc(ctx, *args):
     message = await ctx.channel.send(role.mention)
 
     cdc_channel = discord.utils.get(ctx.guild.channels, name="cdc")
-    await cdc_channel.send(f"🚨 **Atenção!**\nAlerta enviado pela pessoa: {ctx.message.author.mention}\nLink para mensagem: {message.jump_url}")
+    await cdc_channel.send(
+        f"🚨 **Atenção!**\nAlerta enviado pela pessoa: {ctx.message.author.mention}\nLink para mensagem: {message.jump_url}"
+    )
     await ctx.message.delete()
 
 
