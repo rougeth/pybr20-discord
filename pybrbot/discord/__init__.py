@@ -98,13 +98,6 @@ async def on_member_join(member):
         f"Role updated. member={member.display_name!r}, new_role={new_role_id!r}, speaker_role={utils.SPEAKER_ROLE!r}"
     )
 
-    if new_role and new_role.id == utils.SPEAKER_ROLE:
-        # await welcome_speaker(member, member.guild)
-        pass
-    else:
-        # await welcome_member(member, member.guild)
-        pass
-
 
 @bot.event
 async def on_voice_state_update(member, before, after):
