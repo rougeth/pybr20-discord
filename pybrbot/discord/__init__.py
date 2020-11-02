@@ -133,7 +133,11 @@ async def cdc(ctx, *args):
 @cmdlog
 async def geral(ctx, *args):
     geral_channel = discord.utils.get(ctx.guild.channels, name="geral")
-    await geral_channel.send(messages.GERAL)
+
+    channel_help = discord.utils.get(ctx.guild.channels, name="ajuda").mention
+    channel_announcement = discord.utils.get(ctx.guild.channels, name="anuncios").mention
+
+    await geral_channel.send(messages.GERAL.format(channel_announcement=channel_announcement,channel_help=channel_help))
 
 
 @bot.command()

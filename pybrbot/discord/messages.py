@@ -71,15 +71,15 @@ Não esqueça de acompanhar pelo Youtube.
 
 GERAL = """
 Oi, Já que você está aqui segue algumas dicas e regras:
-- A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
-- Não esqueça de assistir as palestras pelo Youtube.
-- Caso queria trocar seu nickname aqui ensina como modificar: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames#h_01EJTEHFA19Q5BK1GQY2XJ2ZJS
-- Fique de olho no canal #anuncios para os avisos dos eventos
-- Se precisar de ajuda tem o canal #ajuda
-- O Código de Conduta pode ser lido em: https://python.org.br/cdc
+- A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade.
+- Não esqueça de assistir as palestras pelo Youtube https://www.youtube.com/c/pythonbrasiloficial.
+- Caso queria trocar seu nickname aqui ensina como modificar: https://support.discord.com/hc/en-us/articles/219070107-Server-Nicknames.
+- Fique de olho no canal {channel_announcement} para os avisos oficiais dos evento.
+- Se precisar de ajuda mande uma mensagem no {channel_help}.
+- O Código de Conduta pode ser lido em: https://python.org.br/cdc.
 - Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
-- Use PEP8
-- Beba água
+- Use PEP8.
+- Beba água.
 """
 
 BOTECO_WELCOME = """
