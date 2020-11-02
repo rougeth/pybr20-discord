@@ -44,15 +44,9 @@ Aqui vão algumas informações relevantes:
 
 
 WARNING = """
-@here
-**⚠️⚠️  Atenção para o aviso** ⚠️⚠️
+@here :loud_sound: **Aviso da organização**
 
 {warning_text}
-
-**Para Lembrar**:
-- A grade de palestras e tutoriais completa está online em: https://2020.pythonbrasil.org.br/grade
-- O Código de Conduta pode ser lido em: https://python.org.br/cdc
-- Time de resposta do Código de Conduta é o **@codigo-de-conduta**.
 """
 
 TALK = """
