@@ -50,7 +50,9 @@ class VoiceChannelTracker:
             try:
                 await channel.delete()
             except discord.errors.NotFound:
-                logger.info(f"Voice channel doesn't exist anymore. channel={channel.name}")
+                logger.info(
+                    f"Voice channel doesn't exist anymore. channel={channel.name}"
+                )
             self.stop_tracking(channel)
 
 

@@ -88,3 +88,50 @@ A mesa não ficará disponível para sempre, após 10 minutos vazia, vou liberá
 
 :beers:
 """
+
+
+NEXT_TALK = """
+@here :alarm_clock:  A próxima palestra vai começar em breve!! :rocket:
+
+**{talk_title}**
+{talk_description}
+
+:movie_camera: <{youtube_url}>
+
+Para facilitar as dúvidas, enviem no seguinte formato:
+```
+[DÚVIDA] Digite aqui a sua dúvida :)
+```
+**Lembretes**
+- Grade de palestras e tutoriais: https://2020.pythonbrasil.org.br/grade
+- Código de Conduta: https://python.org.br/cdc
+- Time de resposta do Código de Conduta: **@codigo-de-conduta**
+"""
+
+
+NEXT_TALK_ALL = """
+:alarm_clock: As próximas palestras vão começar em breve!! :rocket:
+
+{pep0_channel}
+**{pep0_title}**
+:movie_camera: <{pep0_youtube}>
+
+{pep8_channel}
+**{pep8_title}**
+:movie_camera: <{pep8_youtube}>
+
+{pep20_channel}
+**{pep20_title}**
+:movie_camera: <{pep20_youtube}>
+
+{pep404_channel}
+**{pep404_title}**
+:movie_camera: <{pep404_youtube}>
+
+:grey_question:  Dúvidas direto no canal!
+
+**Lembretes**
+- Grade de palestras e tutoriais: https://2020.pythonbrasil.org.br/grade
+- Código de Conduta: https://python.org.br/cdc
+- Time de resposta do Código de Conduta: **@codigo-de-conduta**
+"""

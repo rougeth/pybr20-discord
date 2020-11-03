@@ -16,6 +16,8 @@ loguru = "*"
 toml = "*"
 python-slugify = "*"
 sentry-sdk = "*"
+httpx = "*"
+pytz = "*"
 
 [requires]
 python_version = "3.9"

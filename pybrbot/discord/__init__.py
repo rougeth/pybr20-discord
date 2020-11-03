@@ -9,7 +9,7 @@ from loguru import logger
 from discord.ext import commands
 from discord.ext.tasks import loop
 from slugify import slugify
-from . import config, messages, utils
+from . import calendar, config, messages, utils
 from .utils import cmdlog
 
 
@@ -23,6 +23,16 @@ TALK_CHANNELS = {
     "channel_pep20": "trilha-pep20",
     "channel_pep404": "trilha-pep404",
 }
+
+CHANNEL_ROOMS = [
+    {
+        "discord_channel": "trilha-pep{}".format(pep_number),
+        "calendar_room_name": "PEP {}".format(pep_number),
+    }
+    for pep_number in [0, 8, 20, 404]
+]
+
+CALENDAR_EVENTS = calendar.fetch_events()
 
 
 async def send_dm_member(member, message):
@@ -150,28 +160,28 @@ async def anuncio(ctx, *args):
 
 @bot.command()
 @cmdlog
-async def pep0_prox(ctx, *args):
+async def pep0_prox_backup(ctx, *args):
     pep0_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep0")
     await pep0_channel.send(messages.TALK.format(youtube_link=args[0] if args else ""))
 
 
 @bot.command()
 @cmdlog
-async def pep8_prox(ctx, *args):
+async def pep8_prox_backup(ctx, *args):
     pep8_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep8")
     await pep8_channel.send(messages.TALK.format(youtube_link=args[0] if args else ""))
 
 
 @bot.command()
 @cmdlog
-async def pep20_prox(ctx, *args):
+async def pep20_prox_backup(ctx, *args):
     pep20_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep20")
     await pep20_channel.send(messages.TALK.format(youtube_link=args[0] if args else ""))
 
 
 @bot.command()
 @cmdlog
-async def pep404_prox(ctx, *args):
+async def pep404_prox_backup(ctx, *args):
     pep404_channel = discord.utils.get(ctx.guild.channels, name="trilha-pep404")
     await pep404_channel.send(
         messages.TALK.format(youtube_link=args[0] if args else "")
@@ -246,6 +256,40 @@ async def msg(ctx, *args):
     message = " ".join(args[1:])
     logger.info(f"message sent. destination={destination}, message={message}")
     await destination.send(message)
+
+
+@bot.command()
+@cmdlog
+async def alerta_palestras(ctx, *args):
+    guild = await bot.fetch_guild(config.GUILD)
+    channels = await guild.fetch_channels()
+
+    announcement = {}
+    for room in CHANNEL_ROOMS:
+        discord_channel = room["discord_channel"]
+        room_name = room["calendar_room_name"]
+        pep = room_name.replace(" ", "").lower()
+
+        event = calendar.next_event(CALENDAR_EVENTS, room_name)
+        room = discord.utils.get(channels, name=discord_channel)
+
+        title = event["summary"]
+        youtube = event["extendedProperties"]["private"]["youtube_channel"]
+
+        await room.send(
+            messages.NEXT_TALK.format(
+                talk_title=title,
+                talk_description=event["description"],
+                youtube_url=youtube,
+            )
+        )
+
+        announcement[f"{pep}_channel"] = room.mention
+        announcement[f"{pep}_youtube"] = youtube
+        announcement[f"{pep}_title"] = title
+
+    general = discord.utils.get(channels, name="geral")
+    await general.send(messages.NEXT_TALK_ALL.format(**announcement))
 
 
 @loop(minutes=1)
