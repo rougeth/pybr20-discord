@@ -32,8 +32,6 @@ CHANNEL_ROOMS = [
     for pep_number in [0, 8, 20, 404]
 ]
 
-CALENDAR_EVENTS = calendar.fetch_events()
-
 
 async def send_dm_member(member, message):
     logger.info(f"Sending welcome message. member={member.display_name!r}")
@@ -264,13 +262,15 @@ async def alerta_palestras(ctx, *args):
     guild = await bot.fetch_guild(config.GUILD)
     channels = await guild.fetch_channels()
 
+    events = calendar.fetch_events()
+
     announcement = {}
     for room in CHANNEL_ROOMS:
         discord_channel = room["discord_channel"]
         room_name = room["calendar_room_name"]
         pep = room_name.replace(" ", "").lower()
 
-        event = calendar.next_event(CALENDAR_EVENTS, room_name)
+        event = calendar.next_event(events, room_name)
         room = discord.utils.get(channels, name=discord_channel)
 
         title = event["summary"]
@@ -279,7 +279,7 @@ async def alerta_palestras(ctx, *args):
         await room.send(
             messages.NEXT_TALK.format(
                 talk_title=title,
-                talk_description=event["description"],
+                talk_description=event.get("description"),
                 youtube_url=youtube,
             )
         )
