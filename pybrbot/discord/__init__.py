@@ -6,14 +6,16 @@ from typing import Optional
 
 import discord
 from loguru import logger
-from discord.ext import commands
+from discord.ext.commands import Bot
 from discord.ext.tasks import loop
 from slugify import slugify
 from . import calendar, config, messages, utils
+from .commands import Commands
 from .utils import cmdlog
 
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+bot = Bot(command_prefix="!", intents=discord.Intents.all())
+bot.add_cog(Commands(bot))
 invite_tracker = utils.InviteTracker(bot)
 voice_channel_tracker = utils.VoiceChannelTracker()
 
@@ -127,19 +129,6 @@ async def on_voice_state_update(member, before, after):
 async def on_error(event, *args, **kwargs):
     """Don't ignore the error, causing Sentry to capture it."""
     raise
-
-
-@bot.command()
-@cmdlog
-async def cdc(ctx, *args):
-    role = utils.get_role(ctx.guild, "codigo-de-conduta")
-    message = await ctx.channel.send(role.mention)
-
-    cdc_channel = discord.utils.get(ctx.guild.channels, name="cdc")
-    await cdc_channel.send(
-        f"🚨 **Atenção!**\nAlerta enviado pela pessoa: {ctx.message.author.mention}\nLink para mensagem: {message.jump_url}"
-    )
-    await ctx.message.delete()
 
 
 @bot.command()
