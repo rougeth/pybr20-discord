@@ -17,7 +17,6 @@ from .utils import cmdlog
 bot = Bot(command_prefix="!", intents=discord.Intents.all())
 bot.add_cog(Commands(bot))
 invite_tracker = utils.InviteTracker(bot)
-voice_channel_tracker = utils.VoiceChannelTracker()
 
 TALK_CHANNELS = {
     "channel_pep0": "trilha-pep0",
@@ -33,48 +32,6 @@ CHANNEL_ROOMS = [
     }
     for pep_number in [0, 8, 20, 404]
 ]
-
-
-async def send_dm_member(member, message):
-    logger.info(f"Sending welcome message. member={member.display_name!r}")
-    await member.create_dm()
-    await member.dm_channel.send(message)
-
-
-async def welcome_member(member, guild):
-    channels = {
-        "channel_help": "ajuda",
-        "channel_announcements": "anuncios",
-    }
-    channels.update(TALK_CHANNELS)
-    channe_mentions = {
-        key: discord.utils.get(guild.channels, name=name).mention
-        for key, name in channels.items()
-    }
-
-    message = messages.WELCOME.format(
-        name=member.name,
-        **channe_mentions,
-    )
-    await send_dm_member(member, message)
-
-
-async def welcome_speaker(member, guild):
-    channels = {
-        "channel_speakers": "ajuda-palestrantes",
-        "channel_announcements": "anuncios",
-    }
-    channels.update(TALK_CHANNELS)
-    channe_mentions = {
-        key: discord.utils.get(guild.channels, name=name).mention
-        for key, name in channels.items()
-    }
-
-    message = messages.WELCOME_SPEAKER.format(
-        name=member.name,
-        **channe_mentions,
-    )
-    await send_dm_member(member, message)
 
 
 @bot.event
@@ -107,22 +64,6 @@ async def on_member_join(member):
     logger.info(
         f"Role updated. member={member.display_name!r}, new_role={new_role_id!r}, speaker_role={utils.SPEAKER_ROLE!r}"
     )
-
-
-@bot.event
-async def on_voice_state_update(member, before, after):
-    channel = before.channel or after.channel
-
-    if not channel or channel.category.name != "boteco":
-        return
-
-    global voice_channels_cache
-    if len(channel.members) == 0:
-        logger.info(f"Channel to be removed. channel={channel.name!r}")
-        voice_channel_tracker.track(channel)
-
-    if len(channel.members) > 0:
-        voice_channel_tracker.stop_tracking(channel)
 
 
 @bot.event
@@ -182,35 +123,6 @@ async def welcome_boteco(ctx, *args):
     boteco = discord.utils.get(ctx.guild.channels, name=channel_name)
     channel_help = discord.utils.get(ctx.guild.channels, name="ajuda").mention
     await boteco.send(messages.BOTECO_WELCOME.format(channel_help=channel_help))
-
-
-@bot.command()
-@cmdlog
-async def mesa(ctx, *args):
-    boteco = discord.utils.get(ctx.guild.categories, name="boteco")
-    tables = [table.name for table in boteco.voice_channels]
-
-    if not args:
-        logger.warning("missing table name!")
-        await ctx.channel.send(
-            "Opa, faltou dar um nome para a sua mesa, tente algo como `!mesa vim melhor que emacs` hahaha 😅"
-        )
-        return
-
-    new_table = slugify("mesa " + " ".join(args))
-    if new_table in tables:
-        logger.warning(
-            "This table already exists. new_table={new_table!r}, tables={tables!r}"
-        )
-        await ctx.channel.send(
-            "Opa, uma mesa já existe com esse nome, mas sinta-se à vontade e participe da conversa! 😄 🍺"
-        )
-        return
-
-    channel = await boteco.create_voice_channel(new_table, user_limit=25)
-    voice_channel_tracker.track(channel)
-    await ctx.message.add_reaction("🍻")
-    await ctx.channel.send(f"Mesa disponível no **#boteco**")
 
 
 @bot.command()
@@ -279,12 +191,3 @@ async def alerta_palestras(ctx, *args):
 
     general = discord.utils.get(channels, name="geral")
     await general.send(messages.NEXT_TALK_ALL.format(**announcement))
-
-
-@loop(minutes=1)
-async def close_empty_tables():
-    if len(voice_channel_tracker) == 0:
-        return
-
-    logger.info("Running job: close_empty_tables")
-    await voice_channel_tracker.delete_empty_channels()

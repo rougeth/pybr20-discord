@@ -9,5 +9,4 @@ if __name__ == "__main__":
 
         sentry_sdk.init(discord.config.SENTRY_URL)
 
-    discord.close_empty_tables.start()
     discord.bot.run(discord.config.TOKEN)
