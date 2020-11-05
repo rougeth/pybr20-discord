@@ -75,6 +75,7 @@ class InviteTracker:
                 config.ROLE_CDC,
                 config.ROLE_SPEAKER,
                 config.ROLE_TUTORIAL,
+                config.ROLE_STUDENT,
             ]
         )
         code_role_ids = {}
