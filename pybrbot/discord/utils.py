@@ -69,15 +69,7 @@ class InviteTracker:
         roles = {role.name: role.id for role in guild.roles}
 
         # Fetch role ID from role name
-        invite_codes = generate_role_index(
-            [
-                config.ROLE_ORG,
-                config.ROLE_CDC,
-                config.ROLE_SPEAKER,
-                config.ROLE_TUTORIAL,
-                config.ROLE_STUDENT,
-            ]
-        )
+        invite_codes = generate_role_index([])
         code_role_ids = {}
 
         for code, role_name in invite_codes.items():
